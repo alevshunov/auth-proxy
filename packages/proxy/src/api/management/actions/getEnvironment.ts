@@ -4,9 +4,9 @@ import config from "~/config";
 
 const GetEnvironmentAction = (_req: Request, res: Response) => {
     res.json({
-        ls_scope: config.ls_scope,
-        default_context: config.default_context,
-        extra_fields: config.extra_fields
+        ls_scope: config.Instance().ls_scope,
+        default_context: config.Instance().default_context,
+        extra_fields: config.Instance().extra_fields
     });
 };
 

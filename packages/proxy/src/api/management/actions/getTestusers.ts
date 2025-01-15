@@ -3,7 +3,7 @@ import type { Request, Response } from "express";
 import config from "~/config";
 
 const GetTestusersAction = (_req: Request, res: Response) => {
-    res.json(config.testusers);
+    res.json(config.Instance().testusers);
 };
 
 export default GetTestusersAction;

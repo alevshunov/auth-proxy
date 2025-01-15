@@ -29,9 +29,6 @@ const createConfig = (src: string) => {
     const scopes = ["global", "session"];
     const session_secret = "session secret";
 
-    if (!configFile?.proxyURL && !process.env.PROXY_URL) {
-        throw new Error("Proxy URL is not set");
-    }
     if (!configFile?.testusers && !process.env.TESTUSERS_FILE) {
         throw new Error("Test users file is not set");
     }
@@ -44,13 +41,20 @@ const createConfig = (src: string) => {
     })();
 
     const host_url = (() => {
+        // if (configFile?.proxyURL) {
+        //     return configFile.proxyURL;
+        // }
+        // if (process.env.PROXY_URL) {
+        //     return process.env.PROXY_URL;
+        // }
+        return "http://127.0.0.1:5000";
+    })();
+
+    const proxy_url = (() => {
         if (configFile?.proxyURL) {
             return configFile.proxyURL;
         }
-        if (process.env.PROXY_URL) {
-            return process.env.PROXY_URL;
-        }
-        return "https://www.google.com";
+        return null;
     })();
 
     const cache = (() => {
@@ -60,7 +64,7 @@ const createConfig = (src: string) => {
         if (process.env.CACHE) {
             return process.env.CACHE !== "false";
         }
-        return true;
+        return false;
     })();
 
     const testusers_file = (() => {
@@ -145,6 +149,22 @@ const createConfig = (src: string) => {
         return [];
     })();
 
+    const routes = (() => {
+        if (configFile?.routes) {
+            return configFile.routes;
+        }
+        if (proxy_url && default_context) {
+            return [
+                {
+                    path: default_context,
+                    target: proxy_url
+                }
+            ];
+        }
+
+        return [];
+    })();
+
     return {
         src,
         mode,
@@ -157,7 +177,8 @@ const createConfig = (src: string) => {
         is_scoped,
         session_secret,
         default_context,
-        extra_fields
+        extra_fields,
+        routes
     };
 };
 

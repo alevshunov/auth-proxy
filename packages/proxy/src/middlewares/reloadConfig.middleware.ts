@@ -1,10 +1,10 @@
 import type { NextFunction, Request, Response } from "express";
 
-import config, { reload } from "~/config";
+import Config from "~/config";
 
 function ReloadConfig(_req: Request, _res: Response, next: NextFunction) {
-    if (!config.cache) {
-        reload();
+    if (!Config.Instance().cache) {
+        Config.refresh();
     }
     next();
 }

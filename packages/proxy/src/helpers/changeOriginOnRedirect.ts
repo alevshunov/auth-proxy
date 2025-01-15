@@ -14,7 +14,7 @@ const changeOriginOnRedirect = (
     if (!proxyRes.headers["location"]) {
         return;
     }
-    if (new URL(proxyRes.headers["location"]).origin !== config.host_url) {
+    if (new URL(proxyRes.headers["location"]).origin !== config.Instance().host_url) {
         return;
     }
     proxyRes.headers["location"] = `${req.protocol}://${

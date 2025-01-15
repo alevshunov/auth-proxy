@@ -13,6 +13,6 @@ const strategyFactory = StrategyFactory<
 strategyFactory.add("global", globalStrategy);
 strategyFactory.add("session", sessionStrategy);
 
-const selectedStrategy = strategyFactory.select(config.scope);
+const selectedStrategy = strategyFactory.select(config.Instance().scope);
 
 export default selectedStrategy;

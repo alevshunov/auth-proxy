@@ -9,10 +9,10 @@ import CacheRemoverMiddleware from "~/middlewares/cacheRemover.middleware";
 
 const router = Router();
 
-router.use(express.static(path.resolve(config.src, "../../ui/build/")));
+router.use(express.static(path.resolve(config.Instance().src, "../../ui/build/")));
 
 router.get("*", CacheRemoverMiddleware, (_req: Request, res: Response) => {
-    res.sendFile(path.resolve(config.src, "../../ui/build/", "index.html"));
+    res.sendFile(path.resolve(config.Instance().src, "../../ui/build/", "index.html"));
 });
 
 export default router;
